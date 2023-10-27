@@ -4,7 +4,6 @@
 
 # Requisitos 
 * Cuenta de GitHub
-* Tener discord instalado
 
 
 # Tarea sobre WebHooks
