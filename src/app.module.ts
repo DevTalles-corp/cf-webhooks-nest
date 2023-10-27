@@ -1,10 +1,14 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { WhGithubModule } from './wh-github/wh-github.module';
+import { DiscordService } from './discord/discord.service';
+
+
 
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+
+  
+
+  imports: [WhGithubModule],
+  providers: [DiscordService]
 })
 export class AppModule {}
