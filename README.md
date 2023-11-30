@@ -131,6 +131,79 @@ Settings > WebHooks
 
 ### Felicidades, implementaron su primer WebHook con NestJS y GitHub.
 
-Pueden revisar el código fuente de este repositorio para ver el código completo e implementar los handlers de los eventos de "issues" y "stars".
+
+### Parte 5 - Discord
+Mostrar evento en Discord como un Bot
+
+1. Abran discord
+2. Creen un servidor nuevo, en el panel de la izquierda
+<img width="104" alt="Screenshot 2023-11-30 at 10 29 20 AM" src="https://github.com/DevTalles-corp/cf-webhooks-nest/assets/3438503/2b329494-dec9-450f-911d-fbab4c644011">
+
+3. Seleccionen ```Create My Own```, luego ```For me and my firends```. Coloquen cualquier nombre al server
+4. Hagan click derecho sobre el servidor creado y seleccionen ```Server Settings``` >> ```Integrations```
+<img width="511" alt="Screenshot 2023-11-30 at 10 32 16 AM" src="https://github.com/DevTalles-corp/cf-webhooks-nest/assets/3438503/ddc961d7-f0cf-40a6-964b-0c4925d8966d">
+
+5. Seleccionen ```Create Webhook```
+6. Opcional: (Pueden personalizar el nombre y avatar del bot)
+7. Copiar el Webhook URL
+<img width="927" alt="SCR-20231130-jrfz" src="https://github.com/DevTalles-corp/cf-webhooks-nest/assets/3438503/c170b1b9-a418-4608-8bcf-0d42bfbde722">
+
+8. Implementar el ```github.service.ts``` de esta forma:
+```
+import { Injectable } from '@nestjs/common';
+
+@Injectable()
+export class GithubService {
+
+  private readonly discordWebhookUrl = 'https://discord.com/api/webhooks/1179807432088764457/EKn3ib_NPOlfz_RiaY4D44Y6RVp_T3sVsM-pm7J4J5xXUsXLqapZE6Agdn_uv7MIodui';
+
+  async notify( message: string) {
+    
+    const body = {
+      content: message,
+    };
+
+    const resp = await fetch(this.discordWebhookUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+
+    if (!resp.ok) {
+      console.log('Error sending message to discord');
+      return false;
+    }
+
+    return true;
+  }
+}
+
+
+```
+
+9. En el archivo ```github.controller.ts``` llamar el método ```notify``` del servicio así:
+```
+@Post('/')
+  webhookHandler(
+    @Headers('x-github-event') githubEvent: any,
+    @Body() body: any,
+  ) {
+    console.log({ githubEvent });
+
+    this.githubService.notify(`Event received: ${githubEvent}`); // <--- Aquí
+
+    return { evento: githubEvent };
+  }
+```
+
+10. Probar todo lo realizado asignando o removiendo una estrella en el repositorio y/o creando Issues en GitHub, si todo sale bien, podrán ver los eventos en el canal de Discord con su bot.
+
+
+### Felicidades, lograron conectar GitHub con tu servidor de Nest con Discord utilizando WebHooks!
+
+
+
+#### Nota
+Pueden revisar el código fuente del ejercicio de Fernando para ver los controladores de issues
 
 
