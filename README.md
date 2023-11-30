@@ -17,7 +17,7 @@ nest new webhooks
 
 2. Eliminar ```app.controller.ts``` y ```app.service.ts```, actualizar el ```app.module.ts``` adecuadamente para evitar los errores.
 
-3. Crear un módulo, servicio y controlador llamado github, sin pruebas unitarias. Seleccionar "**NO**" cuando pregunte sobre CRUD.
+3. Crear (REST API) con un módulo, servicio y controlador llamado github, sin pruebas unitarias. Seleccionar "**NO**" cuando pregunte sobre CRUD.
 ```
 nest g resource github --no-spec
 ```
